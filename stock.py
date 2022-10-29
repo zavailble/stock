@@ -102,24 +102,21 @@ df_META['std'] = np.std(df_META.log_price)
 
 st.sidebar.markdown('''\n \n \n \n \n \n  \n  \n''')
 st.sidebar.markdown(''' ## choose chart of company ''')
-# st.sidebar.markdown(''' #### choose all to show the total revenue and netincome ''')
 com_filter = st.sidebar.multiselect('',['Apple','Google','Facebook'])
 st.header(f'Show the basic plot of {com_filter}')
 fig0, ax0 = plt.subplots()
 fig1, ax1 = plt.subplots()
-fig2, ax2 = plt.subplots()
-fig3, ax3 = plt.subplots()
 fig4, ax4 = plt.subplots()
 
 fig6, ax6 = plt.subplots()
 
 if 'Apple' in com_filter:   
-    df_AAPL.Close.plot(ax = ax0,color = 'blue', legend = True,label = 'AAPL closing')
-    df_AAPL.Volume.plot(ax = ax1,color = 'blue',legend = True, label = 'AAPL volume')
-    df_AAPL.Close.plot(ax = ax2,color = 'blue',legend = True,  label = 'AAPL close')
-    df_AAPL.Adj_Close.plot(ax = ax2,color='purple',legend=True,label = 'AAPL adi_close')
-    df_AAPL.log_price.plot(ax=ax3,color='blue',legend=True,label= 'AAPL log_price')
-    df_AAPL.daily_ret.plot(ax = ax4,color = 'blue',legend = True,label = 'AAPL daily_return')
+    df_AAPL.Close.plot(ax = ax0,color = 'blue', legend = True,label = 'AAPL closing price')
+    df_AAPL.Volume.plot(ax = ax1,color = 'blue',legend = True, label = 'AAPL daily turnover volume')
+    #df_AAPL.Close.plot(ax = ax2,color = 'blue',legend = True,  label = 'AAPL close')
+    #df_AAPL.Adj_Close.plot(ax = ax2,color='purple',legend=True,label = 'AAPL adi_close')
+    #df_AAPL.log_price.plot(ax=ax3,color='blue',legend=True,label= 'AAPL log_price')
+    df_AAPL.daily_ret.plot(ax = ax4,color = 'blue',legend = True,label = 'AAPL daily return')
     # df_AAPL.log_return.plot(ax = ax4,color = 'purple',legend = True,label = 'AAPL log_return')       
     # if 'Google' in com_filter:
     #     ax6=plt.scatter(df_AAPL.log_return, df_GOOG.log_return) 
@@ -127,31 +124,33 @@ if 'Apple' in com_filter:
         
 
 if 'Google' in com_filter:
-    df_GOOG.Close.plot(ax = ax0,color = 'green', legend = True,label = 'GOOG close')
-    df_GOOG.Volume.plot(ax = ax1,color = 'green',legend = True, label = 'GOOG volume')
-    df_GOOG.Close.plot(ax = ax2,color='green',legend=True,label = 'GOOG close')
-    df_GOOG.Adj_Close.plot(ax= ax2,color='gray',legend=True,label = 'GOOG adj_close')
-    df_GOOG.log_price.plot(ax=ax3,color='green',legend=True,label= 'GOOG log_price')
-    df_GOOG.daily_ret.plot(ax = ax4,color='green',legend=True,label = 'GOOG daily_return')
+    df_GOOG.Close.plot(ax = ax0,color = 'green', legend = True,label = 'GOOG closing price')
+    df_GOOG.Volume.plot(ax = ax1,color = 'green',legend = True, label = 'GOOG daily turnover volume')
+    #df_GOOG.Close.plot(ax = ax2,color='green',legend=True,label = 'GOOG close')
+    #df_GOOG.Adj_Close.plot(ax= ax2,color='gray',legend=True,label = 'GOOG adj_close')
+    #df_GOOG.log_price.plot(ax=ax3,color='green',legend=True,label= 'GOOG log_price')
+    df_GOOG.daily_ret.plot(ax = ax4,color='green',legend=True,label = 'GOOG daily return')
     # df_GOOG.log_return.plot(ax = ax4,color='gray',legend=True,label = 'GOOG log_return')
 
 if 'Facebook' in com_filter:   
-    df_META.Close.plot(ax = ax0,color = 'yellow', legend = True,label = 'META close')
-    df_META.Volume.plot(ax = ax1,color = 'yellow',legend = True,label = 'META volume')
-    df_META.Close.plot(ax = ax2,color='yellow',legend=True,label = 'META close')
-    df_META.Adj_Close.plot(ax= ax2,color='red',legend=True,label = 'META adj_close')
-    df_META.log_price.plot(ax=ax3,color='yellow',legend=True,label= 'META log_price')
+    df_META.Close.plot(ax = ax0,color = 'red', legend = True,label = 'META closing price')
+    df_META.Volume.plot(ax = ax1,color = 'red',legend = True,label = 'META daily turnover volume')
+    #df_META.Close.plot(ax = ax2,color='yellow',legend=True,label = 'META close')
+    #df_META.Adj_Close.plot(ax= ax2,color='red',legend=True,label = 'META adj_close')
+    #df_META.log_price.plot(ax=ax3,color='yellow',legend=True,label= 'META log_price')
     # df_META.log_return.plot(ax = ax4, color='red',legend=True,label = 'META log_return')
-
+    df_META.daily_ret.plot(ax = ax4,color='red',legend=True,label = 'META daily return')
 
 
 
 ax0.set_ylabel('price')    
 st.pyplot(fig0) 
 st.pyplot(fig1) 
-st.pyplot(fig2) 
-st.pyplot(fig3) 
+#st.pyplot(fig2) 
+#st.pyplot(fig3) 
 st.pyplot(fig4) 
+
+st.subheader('Conclusion:')
 
 st.markdown(''' ### the total revenue and net income''')
 fig5, ax5 = plt.subplots()
@@ -166,6 +165,8 @@ st.pyplot(fig5)
 # ax6 = scatter_matrix(ret_all, diagonal='kde', figsize=(10, 10))
 # st.pyplot(fig6)
 
+st.subheader('Question 1: Is there a correlation between company market value (net income) and daily turnover volumn?')
+st.subheader('Answer 1: There is a positive relationship between company market value (net income) and daily turnover.\nCompanies with larger net income have higher daily turnover volumn.')
 
 fig7, ax7 = plt.subplots()
 y = df_AAPL.log_return
@@ -206,6 +207,10 @@ st.pyplot(fig8) #一阶差分后的时序图
 from statsmodels.tsa import stattools #白噪声检验:Ljung-Box检验
 LjungBox=stattools.q_stat(stattools.acf(ts1)[1:12],len(ts1))[1] #显示第一个到第11个白噪声检验的p值
 st.write(LjungBox)  #检验的p值大于0.05，因此不能拒绝原假设，差分后序列白噪声检验通过
+st.subheader('P-value<0.05,so the time series is stationary.')
+
+st.subheader('Question 2: Is there a correlation between log_return and daily turnover volume?')
+st.subheader('Answer 2: According to OLS (ordinary least squares) regression and ADF stationarity test, there is a positive relationship between log_return and daily turnover volume.')
 
 company={
     'name':['AAPL','GOOG','META'],
@@ -215,10 +220,9 @@ company={
 }
 df=pd.DataFrame(company)
 st.dataframe(df)
-st.markdown(''' ## shoe thw loss of confidence''')
-st.write(f'At 95% confidence interval,the loss isn\'t exceed.\nAAPL: {abs(df_AAPL.daily_ret.quantile(0.05)*100):.3f}%\nGOOG: {abs(df_GOOG.daily_ret.quantile(0.05)*100):.3f}%\nMETA: {abs(df_META.daily_ret.quantile(0.05)*100):.3f}%')
-
-
+st.write(f'At 95% confidence interval,the loss isn\'t exceed——>\nAAPL: {abs(df_AAPL.daily_ret.quantile(0.05)*100):.3f}%\nGOOG: {abs(df_GOOG.daily_ret.quantile(0.05)*100):.3f}%\nMETA: {abs(df_META.daily_ret.quantile(0.05)*100):.3f}%')
+st.subheader('Question 3: Is there a correlation between daily return and loss?')
+st.subheader('Answer 3: There is a positive relationship between daily return and loss, with riskier firms also having relatively higher daily return.')
 
 
 
