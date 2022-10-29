@@ -150,7 +150,6 @@ st.pyplot(fig1)
 #st.pyplot(fig3) 
 st.pyplot(fig4) 
 
-st.subheader('Conclusion:')
 
 st.markdown(''' ### the total revenue and net income''')
 fig5, ax5 = plt.subplots()
@@ -165,8 +164,6 @@ st.pyplot(fig5)
 # ax6 = scatter_matrix(ret_all, diagonal='kde', figsize=(10, 10))
 # st.pyplot(fig6)
 
-st.subheader('Question 1: Is there a correlation between company market value (net income) and daily turnover volumn?')
-st.subheader('Answer 1: There is a positive relationship between company market value (net income) and daily turnover.\nCompanies with larger net income have higher daily turnover volumn.')
 
 fig7, ax7 = plt.subplots()
 y = df_AAPL.log_return
@@ -207,10 +204,8 @@ st.pyplot(fig8) #一阶差分后的时序图
 from statsmodels.tsa import stattools #白噪声检验:Ljung-Box检验
 LjungBox=stattools.q_stat(stattools.acf(ts1)[1:12],len(ts1))[1] #显示第一个到第11个白噪声检验的p值
 st.write(LjungBox)  #检验的p值大于0.05，因此不能拒绝原假设，差分后序列白噪声检验通过
-st.subheader('P-value<0.05,so the time series is stationary.')
+st.write('P-value<0.05,so the time series is stationary.')
 
-st.subheader('Question 2: Is there a correlation between log_return and daily turnover volume?')
-st.subheader('Answer 2: According to OLS (ordinary least squares) regression and ADF stationarity test, there is a positive relationship between log_return and daily turnover volume.')
 
 company={
     'name':['AAPL','GOOG','META'],
@@ -221,8 +216,15 @@ company={
 df=pd.DataFrame(company)
 st.dataframe(df)
 st.write(f'At 95% confidence interval,the loss isn\'t exceed——>\nAAPL: {abs(df_AAPL.daily_ret.quantile(0.05)*100):.3f}%\nGOOG: {abs(df_GOOG.daily_ret.quantile(0.05)*100):.3f}%\nMETA: {abs(df_META.daily_ret.quantile(0.05)*100):.3f}%')
-st.subheader('Question 3: Is there a correlation between daily return and loss?')
-st.subheader('Answer 3: There is a positive relationship between daily return and loss, with riskier firms also having relatively higher daily return.')
+
+
+st.subheader('Conclusion:')
+st.write('Question 1: Is there a correlation between company market value (net income) and daily turnover volumn?\n')
+st.write('Answer 1: There is a positive relationship between company market value (net income) and daily turnover.\nCompanies with larger net income have higher daily turnover volumn.\n\n')
+st.write('Question 2: Is there a correlation between log_return and daily turnover volume?')
+st.write('Answer 2: According to OLS (ordinary least squares) regression and ADF stationarity test, there is a positive relationship between log_return and daily turnover volume.')
+st.write('Question 3: Is there a correlation between daily return and loss?\n')
+st.write('Answer 3: There is a positive relationship between daily return and loss, with riskier firms also having relatively higher daily return.')
 
 
 
