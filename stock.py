@@ -4,14 +4,13 @@ from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
+from statsmodels.tsa.stattools import adfuller
 
 
 st.title('AAPL,GOOG,META Stock(2017-2022) Analyze')
 df_AAPL=pd.read_csv('AAPL.csv')
 df_GOOG=pd.read_csv('GOOG.csv')
 df_META=pd.read_csv('META.csv')
-
-# https://blog.csdn.net/CoderPai/article/details/82887576
 
 df_AAPL['log_price'] = np.log(df_AAPL['Close'])
 df_GOOG['log_price'] = np.log(df_META['Close'])
@@ -46,6 +45,8 @@ if com_filter == 'Apple':
     st.dataframe(df_AAPL1)
     st.dataframe(df_AAPL1.describe())
 
+    
+
 if com_filter == 'Google':
     st.markdown(''' ## show the data of GOOG''' )
     options = np.array(df_GOOG['Date']).tolist()
@@ -71,6 +72,16 @@ if com_filter == 'Facebook':
     df_META1 = df_META[start_time:end_time]
     st.dataframe(df_META1)
     st.dataframe(df_META.describe())
+
+
+
+
+
+
+
+
+
+
 
 df_AAPL['daily_ret']=df_AAPL.Adj_Close.pct_change()
 df_GOOG['daily_ret']=df_GOOG.Adj_Close.pct_change()
@@ -102,103 +113,162 @@ df_META['std'] = np.std(df_META.log_price)
 
 st.sidebar.markdown('''\n \n \n \n \n \n  \n  \n''')
 st.sidebar.markdown(''' ## choose chart of company ''')
-com_filter = st.sidebar.multiselect('',['Apple','Google','Facebook'])
-st.header(f'Show the basic plot of {com_filter}')
+com_filter = st.sidebar.multiselect('',['Apple','Google','Facebook'],default='Apple')
+
+chart_filter = st.sidebar.radio('Choode the chart:',['Close','Volume','Adj_close','log_price','Daily_ret'])
+st.header(f'Show the basic plot ')
 fig0, ax0 = plt.subplots()
 fig1, ax1 = plt.subplots()
+fig2, ax2 = plt.subplots()
+fig3, ax3 = plt.subplots()
 fig4, ax4 = plt.subplots()
-
 fig6, ax6 = plt.subplots()
+ax0.set_ylabel('price')    
+
 
 if 'Apple' in com_filter:   
-    df_AAPL.Close.plot(ax = ax0,color = 'blue', legend = True,label = 'AAPL closing price')
-    df_AAPL.Volume.plot(ax = ax1,color = 'blue',legend = True, label = 'AAPL daily turnover volume')
-    #df_AAPL.Close.plot(ax = ax2,color = 'blue',legend = True,  label = 'AAPL close')
-    #df_AAPL.Adj_Close.plot(ax = ax2,color='purple',legend=True,label = 'AAPL adi_close')
-    #df_AAPL.log_price.plot(ax=ax3,color='blue',legend=True,label= 'AAPL log_price')
-    df_AAPL.daily_ret.plot(ax = ax4,color = 'blue',legend = True,label = 'AAPL daily return')
+    if 'Close' == chart_filter:
+        df_AAPL.Close.plot(ax = ax0,color = 'blue', legend = True,label = 'AAPL closing price')
+        st.pyplot(fig0) 
+
+    elif 'Volume' == chart_filter:
+        df_AAPL.Volume.plot(ax = ax1,color = 'blue',legend = True, label = 'AAPL daily turnover volume')
+        st.pyplot(fig1) 
+
+    elif 'Adj_Close' == chart_filter:
+        df_AAPL.Close.plot(ax = ax2,color='blue',legend=True,label = 'AAPL close')
+        df_AAPL.Adj_Close.plot(ax = ax2,color='purple',legend=True,label = 'AAPL adi_close')
+        st.pyplot(fig2)
+
+    elif 'log_Close' == chart_filter:
+        df_AAPL.log_price.plot(ax=ax3,color='blue',legend=True,label= 'AAPL log_price')
+        st.pyplot(fig3)     
+
+    if 'daily_ret' == chart_filter:    
+        df_AAPL.daily_ret.plot(ax = ax4,color = 'blue',legend = True,label = 'AAPL daily return')
+        st.pyplot(fig4) 
     # df_AAPL.log_return.plot(ax = ax4,color = 'purple',legend = True,label = 'AAPL log_return')       
     # if 'Google' in com_filter:
     #     ax6=plt.scatter(df_AAPL.log_return, df_GOOG.log_return) 
     #     ax6.set_xlabel('df_AAPL.log_return','df_GOOG.log_return')
         
 
-if 'Google' in com_filter:
-    df_GOOG.Close.plot(ax = ax0,color = 'green', legend = True,label = 'GOOG closing price')
-    df_GOOG.Volume.plot(ax = ax1,color = 'green',legend = True, label = 'GOOG daily turnover volume')
-    #df_GOOG.Close.plot(ax = ax2,color='green',legend=True,label = 'GOOG close')
-    #df_GOOG.Adj_Close.plot(ax= ax2,color='gray',legend=True,label = 'GOOG adj_close')
-    #df_GOOG.log_price.plot(ax=ax3,color='green',legend=True,label= 'GOOG log_price')
-    df_GOOG.daily_ret.plot(ax = ax4,color='green',legend=True,label = 'GOOG daily return')
-    # df_GOOG.log_return.plot(ax = ax4,color='gray',legend=True,label = 'GOOG log_return')
+if 'Facebook' in com_filter:
+    
+    if 'Close' in chart_filter:
+        df_META.Close.plot(ax = ax0,color = 'green', legend = True,label = 'META closing price')
+        st.pyplot(fig0) 
 
-if 'Facebook' in com_filter:   
-    df_META.Close.plot(ax = ax0,color = 'red', legend = True,label = 'META closing price')
-    df_META.Volume.plot(ax = ax1,color = 'red',legend = True,label = 'META daily turnover volume')
-    #df_META.Close.plot(ax = ax2,color='yellow',legend=True,label = 'META close')
-    #df_META.Adj_Close.plot(ax= ax2,color='red',legend=True,label = 'META adj_close')
-    #df_META.log_price.plot(ax=ax3,color='yellow',legend=True,label= 'META log_price')
-    # df_META.log_return.plot(ax = ax4, color='red',legend=True,label = 'META log_return')
-    df_META.daily_ret.plot(ax = ax4,color='red',legend=True,label = 'META daily return')
+    if 'Volume' in chart_filter:
+        df_META.Volume.plot(ax = ax1,color = 'green',legend = True, label = 'META daily turnover volume')
+        st.pyplot(fig1) 
+
+    if 'Adj_Close' in chart_filter:
+        df_META.Close.plot(ax = ax2,color='green',legend=True,label = 'META close')
+        df_META.Adj_Close.plot(ax = ax2,color='gray',legend=True,label = 'META adi_close')
+        st.pyplot(fig2)
+
+    if 'log_Close' in chart_filter:
+        df_META.log_price.plot(ax=ax3,color='green',legend=True,label= 'META log_price')
+        st.pyplot(fig3) 
+
+    if 'daily_ret' in chart_filter:    
+        df_META.daily_ret.plot(ax = ax4,color = 'green',legend = True,label = 'META daily return')
+        st.pyplot(fig4) 
+
+
+
+if 'Gooogle' in com_filter:   
+    
+    if 'Close' in chart_filter:
+        df_GOOG.Close.plot(ax = ax0,color = 'yellow', legend = True,label = 'GOOG closing price')
+        st.pyplot(fig0) 
+
+    if 'Volume' in chart_filter:
+        df_GOOG.Volume.plot(ax = ax1,color = 'yellow',legend = True, label = 'GOOG daily turnover volume')
+        st.pyplot(fig1) 
+
+    if 'Adj_Close' in chart_filter:
+        df_GOOG.Close.plot(ax = ax2,color='yellow',legend=True,label = 'GOOG close')
+        df_GOOG.Adj_Close.plot(ax = ax2,color='red',legend=True,label = 'GOOG adj_close')
+        st.pyplot(fig2)
+
+    if 'log_Close' in chart_filter:
+        df_GOOG.log_price.plot(ax=ax3,color='yellow',legend=True,label= 'GOOG log_price')
+        st.pyplot(fig3) 
+
+    if 'daily_ret' in chart_filter:    
+        df_GOOG.daily_ret.plot(ax = ax4,color = 'yellow',legend = True,label = 'GOOG daily return')
+        st.pyplot(fig4) 
 
 
 
 ax0.set_ylabel('price')    
-st.pyplot(fig0) 
-st.pyplot(fig1) 
-#st.pyplot(fig2) 
-#st.pyplot(fig3) 
-st.pyplot(fig4) 
 
 
-st.markdown(''' ### the total revenue and net income''')
-fig5, ax5 = plt.subplots()
-company={'name':['AAPL','GOOG','META'],'industry':['Consumer Electronics','Internet Content & Information','Internet Content & Information'],'total_revenue':[365817,257637,117929],'net_income':[94680,76033,39370]}
-df=pd.DataFrame(company)
-df.total_revenue.plot.bar(ax=ax5,color='black',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)
-df.net_income.plot.bar(ax=ax5,color='purple',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)   
-st.pyplot(fig5)
+
+
 
 # fig6, ax6 = plt.subplots()
 # ret_all = [df_AAPL.log_return,df_GOOG.log_return,df_META.log_return]
 # ax6 = scatter_matrix(ret_all, diagonal='kde', figsize=(10, 10))
 # st.pyplot(fig6)
+st.sidebar.markdown('''\n \n \n \n \n \n  \n  \n''')
 
+st.sidebar.markdown('''show the revenue and net_income''')
+revenue_filter = st.sidebar.radio('',['No','Yes'])
+if revenue_filter == 'Yes':
+    st.markdown(''' ### the total revenue and net income''')
+    fig5, ax5 = plt.subplots()
+    company={'name':['AAPL','GOOG','META'],'industry':['Consumer Electronics','Internet Content & Information','Internet Content & Information'],'total_revenue':[365817,257637,117929],'net_income':[94680,76033,39370]}
+    df=pd.DataFrame(company)
+    df.total_revenue.plot.bar(ax=ax5,color='black',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)
+    df.net_income.plot.bar(ax=ax5,color='purple',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)   
+    st.pyplot(fig5)
+
+
+
+
+
+
+
+
+
+
+st.markdown('''\n \n \n \n \n \n  \n  \n''')
+st.markdown('''\n \n \n \n \n \n  \n  \n''')
+st.markdown('''\n \n \n \n \n \n  \n  \n''')
 
 fig7, ax7 = plt.subplots()
-y = df_AAPL.log_return
-x = df_AAPL.Volume 
+y = df_AAPL.Close
+x = df_AAPL.Close
 x[np.isnan(x)] = 0
 x[np.isinf(x)] = 0
 y[np.isnan(y)] = 0
 y[np.isinf(y)] = 0
-#sm.add_constant(rets['EUROSTOXX'])
 model = sm.OLS(y,x)
 results = model.fit()
 st.write(results.params)
 st.write(results.summary())
 y_fitted = results.fittedvalues
-ax7.legend(loc='best')
+ax7.legend(loc='best') 
 ax7.plot(x, y, 'o', label='data')
 ax7.plot(x, y_fitted, 'r--.',label='OLS')
 st.pyplot(fig7)
 
-
+#ADF单位根检验
+st.markdown('''## ADF 单位根检验''')
 fig8, ax8 = plt.subplots()
 ts = df_AAPL.Close
-from statsmodels.tsa.stattools import adfuller #ADF单位根检验
+ #ADF单位根检验
 result = adfuller(ts) #不能拒绝原假设，即原序列存在单位根
 print(result)
 ts1= ts.diff().dropna() #一阶差分再进行ADF检验
 result = adfuller(ts1)
 st.write(result)
-# plt.rcParams['font.sans-serif'] = ['simhei'] #字体为黑体
-# plt.rcParams['axes.unicode_minus'] = False #正常显示负号
 plt.xticks(rotation=45) #坐标角度旋转
-# ax8.xlabel('data') #横、纵坐标以及标题命名
-# ax8.ylabel('colse price')
-# ax8.title('close price after difference',loc='center')
 ax8.plot(ts1)
+st.markdown('''不能拒绝原假设，即原序列存在单位根''')
 st.pyplot(fig8) #一阶差分后的时序图
 
 from statsmodels.tsa import stattools #白噪声检验:Ljung-Box检验
