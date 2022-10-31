@@ -241,7 +241,7 @@ st.markdown('''\n \n \n \n \n \n  \n  \n''')
 
 fig7, ax7 = plt.subplots()
 y = df_AAPL.Close
-x = df_AAPL.Close
+x = df_GOOG.Close
 x[np.isnan(x)] = 0
 x[np.isinf(x)] = 0
 y[np.isnan(y)] = 0
