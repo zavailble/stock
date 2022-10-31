@@ -71,7 +71,7 @@ if com_filter == 'Facebook':
     df_META.index = df_META['Date']  
     df_META1 = df_META[start_time:end_time]
     st.dataframe(df_META1)
-    st.dataframe(df_META.describe())
+    st.dataframe(df_META1.describe())
 
 
 
@@ -225,6 +225,7 @@ if revenue_filter == 'Yes':
     df.total_revenue.plot.bar(ax=ax5,color='black',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)
     df.net_income.plot.bar(ax=ax5,color='purple',legend=True).set_xticks([0,1,2],['AAPL','GOOG','META'],rotation=30)   
     st.pyplot(fig5)
+
 
 
 
