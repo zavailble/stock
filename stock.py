@@ -290,10 +290,10 @@ st.write(f'At 95% confidence interval,the loss isn\'t exceed——>\nAAPL: {abs(
 
 
 st.subheader('Conclusion:')
-st.write('Question 1: Is there a correlation between company market value (net income) and daily turnover volumn?\n')
-st.write('Answer 1: There is a positive relationship between company market value (net income) and daily turnover.\nCompanies with larger net income have higher daily turnover volumn.\n\n')
-st.write('Question 2: Is there a correlation between log_return and daily turnover volume?')
-st.write('Answer 2: According to OLS (ordinary least squares) regression and ADF stationarity test, there is a positive relationship between log_return and daily turnover volume.')
+st.write('Question 1: Is there a correlation between the share prices of technology stocks (of different companies)?\n')
+st.write('Answer 1: Technology stock prices show the same trend and the correlation is strong.\n')
+st.write('Question 2: Is there a correlation between market value[total revenue&net income] and daily turnover?\n')
+st.write('Answer 2: According to the bar chart of total revenue,net income and linear chart of daily turnover volume, \nthere is a positive correlation between the company\'s market value and daily turnover volume.')
 st.write('Question 3: Is there a correlation between daily return and loss?\n')
 st.write('Answer 3: There is a positive relationship between daily return and loss, with riskier firms also having relatively higher daily return.')
 
