@@ -124,7 +124,7 @@ st.pyplot(fig3)
 
 
 #whether choose total revenue and net income or not
-st.sidebar.markdown('''\n \n \n \n \n \n \n \n''')
+st.sidebar.markdown('''\n \n''')
 st.sidebar.markdown('''show total revenue and net income''')
 revenue_filter = st.sidebar.radio('',['No','Yes'])
 if revenue_filter == 'Yes':
