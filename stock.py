@@ -105,7 +105,7 @@ if 'Facebook' in com_filter:
     
 
 
-if 'Gooogle' in com_filter:   
+if 'Google' in com_filter:   
     df_GOOG.Close.plot(ax = ax0,color = 'yellow', legend = True,label = 'GOOG closing price',title = 'Close')
     df_GOOG.Volume.plot(ax = ax1,color = 'yellow',legend = True, label = 'GOOG daily turnover volume',title = 'Volume')
     df_GOOG.Close.plot(ax = ax2,color = 'yellow',legend = True,label = 'GOOG close',title = 'Close and Adj_close')
@@ -144,6 +144,7 @@ st.markdown('''\n \n \n \n \n \n  \n  \n''')
 
 #OLS regression about different companys' Close price 
 st.markdown('''## OLS regression''')
+st.write('AAPL & GOOG closing price')
 fig5, ax5 = plt.subplots()
 y = df_AAPL.Close
 x = df_GOOG.Close
@@ -163,6 +164,7 @@ st.pyplot(fig5)
 
 
 
+st.write('GOOG & META closing price')
 fig6, ax6 = plt.subplots()
 y = df_GOOG.Close
 x = df_META.Close
@@ -182,6 +184,7 @@ st.pyplot(fig6)
 
 
 
+st.write('AAPL & META closing price')
 fig7, ax7 = plt.subplots()
 y = df_AAPL.Close
 x = df_META.Close
@@ -211,9 +214,11 @@ print(result)
 ts1 = ts.diff().dropna() 
 result = adfuller(ts1)
 #show ADF test result
+st.write('ADF test result:')
 st.write(result)
 st.write('P-value<0.05,so the time series is stationary.')
 #show the timing diagram after the first difference
+st.write('Timing diagram:')
 plt.xticks(rotation = 45) 
 ax8.plot(ts1)
 st.pyplot(fig8) 
@@ -229,6 +234,7 @@ company = {
 
 
 #show stock risk(loss)
+st.markdown('''##Stock risk(loss):''')
 df=pd.DataFrame(company)
 st.dataframe(df)
 st.write(f'At 95% confidence interval,the loss isn\'t exceed——>\nAAPL: {abs(df_AAPL.daily_ret.quantile(0.05)*100):.3f}%\nGOOG: {abs(df_GOOG.daily_ret.quantile(0.05)*100):.3f}%\nMETA: {abs(df_META.daily_ret.quantile(0.05)*100):.3f}%')
