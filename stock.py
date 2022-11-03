@@ -216,6 +216,8 @@ result = adfuller(ts1)
 #show ADF test result
 st.write('1. ADF test result:')
 st.write(result)
+st.write('There are tow conditions in this test:')
+st.write('ADF test value(first value) less than each value in different confidence interval and p value(secind value) <0.05')
 st.write('P-value<0.05,so the time series is stationary.')
 #show the timing diagram after the first difference
 st.write('2. Timing diagram:')
@@ -244,6 +246,8 @@ st.write(f'At 95% confidence interval,the loss isn\'t exceed——>\nAAPL: {abs(
 st.markdown('''## Conclusion:''')
 st.write('Question 1: Is there a correlation between the share prices of technology stocks (of different companies)?\n')
 st.write('Answer 1: Technology stock prices show the same trend and the correlation is strong.\n')
+st.wirte('further extension: Eggs can\'t be put in a basket as well as stock, a portfolio must inclue various assets. ')
+st.markdown(''' \n\n\n\n''')
 st.write('Question 2: Is there a correlation between market value[total revenue&net income] and daily turnover?\n')
 st.write('Answer 2: According to the bar chart of total revenue,net income and linear chart of daily turnover volume, \nthere is a positive correlation between the company\'s market value and daily turnover volume.')
 st.write('Question 3: Is there a correlation between daily return and loss?\n')
